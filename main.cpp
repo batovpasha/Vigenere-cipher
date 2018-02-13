@@ -2,48 +2,42 @@
 #include <vector>
 using namespace std;
 
-vector<char> base;
+vector<char> base, cipher, decipherMessage;
 vector<string> matrix;
-vector<char> cipher;
 
 void decipher() {
-  vector<char> decipherMessage;
-  vector<int> result1;
-  vector<int> result2;
+  vector<int> indexOfColumn, indexOfRow;
   for (int i = 0; i < cipher.size(); i++) {
     for (int j = 0; j < cipher.size(); j++) {
-      if (base[i] == matrix[0][j]) result2.push_back(j);
+      if (base[i] == matrix[0][j]) indexOfRow.push_back(j);
     }
   }
-  for (int i = 0; i < result2.size(); i++) {
-    for (int j = 0; j < result2.size(); j++) {
-      if(cipher[i] == matrix[result2[i]][j]) result1.push_back(j);
+  for (int i = 0; i < indexOfRow.size(); i++) {
+    for (int j = 0; j < indexOfRow.size(); j++) {
+      if (cipher[i] == matrix[indexOfRow[i]][j]) indexOfColumn.push_back(j);
     }
   }
-  for (int i = 0; i < result1.size(); i++) {
-    decipherMessage.push_back(matrix[0][result1[i]]);
+  for (int i = 0; i < indexOfColumn.size(); i++) {
+    decipherMessage.push_back(matrix[0][indexOfColumn[i]]);
   }
   cout << "message: ";
-  for (int i = 0; i < decipherMessage.size(); i++) {
-    cout << decipherMessage[i] << "";
-  }
+  for (int i = 0; i < decipherMessage.size(); i++) cout << decipherMessage[i];
   cout << endl;
 }
 
 void encryption(string message) {
-  vector<int> indexOfRow;
-  vector<int> indexOfColumn;
+  vector<int> indexOfRowArr, indexOfColumnArr;
   for (int i = 0; i < message.size(); i++) {
     for (int j = 0; j < message.size(); j++) {
-      if (message[i] == matrix[0][j]) indexOfRow.push_back(j);
-      if (base[i] == matrix[0][j]) indexOfColumn.push_back(j);
+      if (message[i] == matrix[0][j]) indexOfRowArr.push_back(j);
+      if (base[i] == matrix[0][j]) indexOfColumnArr.push_back(j);
     }
   }
-  for (int i = 0; i < indexOfRow.size(); i++) {
-    cipher.push_back(matrix[indexOfRow[i]][indexOfColumn[i]]);
+  for (int i = 0; i < indexOfRowArr.size(); i++) {
+    cipher.push_back(matrix[indexOfRowArr[i]][indexOfColumnArr[i]]);
   }
   cout << "cipher: ";
-  for (int i = 0; i < cipher.size(); i++) cout << cipher[i] << "";
+  for (int i = 0; i < cipher.size(); i++) cout << cipher[i];
   cout << endl;
   decipher();
 }
@@ -56,6 +50,7 @@ void createMatrix(string alphabet, string message) {
     matrix.push_back(alphabet);
   }
   for (int i = 0; i < matrix.size(); i++) cout << matrix[i] << endl;
+  cout << endl;
   encryption(message);
 }
 
@@ -75,6 +70,7 @@ void read() {
   getline(cin, alphabet);
   cout << "Enter your message: ";
   getline(cin, message);
+  cout << endl;
   createBase(key, alphabet, message);
 }
 
