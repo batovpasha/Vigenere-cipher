@@ -72,12 +72,17 @@ const main = (key, alphabet, message) => {
       throw new Error(`alphabet dont includes "${item}"`);
     }
   });
+
   const arr = key.split('');
+
   arr.forEach(item => {
     if (message.length > base.length) base.push(item);
     else return;
   });
-  if (base.length < message.length) main(key, alphabet, message);
+
+  if (base.length < message.length) 
+    main(key, alphabet, message);
+    
   else createMatrix(alphabet, message);
 };
 
